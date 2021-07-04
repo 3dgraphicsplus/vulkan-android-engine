@@ -28,3 +28,9 @@ git clone --depth=1 https://github.com/3dgraphicsplus/vulkan-android-engine.git
 ### Change log ###
 
 [Releases]
+
+
+### Donate ###
+While waiting for official sponsor button from github.
+
+[Paypal](https://paypal.me/3dgraphicsplus)
