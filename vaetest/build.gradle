@@ -46,7 +46,7 @@ android {
     task extractSo(type: Copy) {
         println 'Extracting *.so file(s)....'
 
-        from zipTree("${project.rootDir}/../vae/vae/build/outputs/aar/vae-debug.aar")
+        from zipTree("${project.rootDir}/vae/build/outputs/aar/vae-debug.aar")
         into "${project.rootDir}/${project.name}/src/main/jniLibs/"
         include "jni/**/*.so"
 
