@@ -9,12 +9,12 @@ add_library(native_glue STATIC
 # build Vulkan app
 set(SRC_DIR ${CMAKE_SOURCE_DIR})
 get_filename_component(REPO_ROOT_DIR
-   ${CMAKE_SOURCE_DIR}/../../../../..  ABSOLUTE)
+   ${CMAKE_SOURCE_DIR}/../../../..  ABSOLUTE)
 set(COMMON_DIR ${REPO_ROOT_DIR}/common)
 set(THIRD_PARTY_DIR ${REPO_ROOT_DIR}/third_party)
 
 include_directories(
-        ${REPO_ROOT_DIR}/vae/vae/src/main/cpp
+        ${REPO_ROOT_DIR}/vae/src/main/cpp
    ${COMMON_DIR}/vulkan_wrapper
    ${COMMON_DIR}/src
    ${THIRD_PARTY_DIR}
@@ -33,10 +33,10 @@ if (${ANDROID_ABI} STREQUAL "armeabi-v7a")
 endif()
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
-link_directories(${REPO_ROOT_DIR}/vae/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
+link_directories(${REPO_ROOT_DIR}/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
 link_directories(../jniLibs/${ANDROID_ABI}/)
 
-message(WARN "LIBRARY " ${REPO_ROOT_DIR}/vae/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
+message(WARN "LIBRARY " ${REPO_ROOT_DIR}/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
 
 message(WARN "LIBRARY " ../jniLibs/${ANDROID_ABI}/)
 

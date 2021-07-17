@@ -8,7 +8,7 @@ message(WARN  "Start compiling vae")
 # build Vulkan Android Engine
 set(SRC_DIR ${CMAKE_SOURCE_DIR})
 get_filename_component(REPO_ROOT_DIR
-   ${CMAKE_SOURCE_DIR}/../../../../..  ABSOLUTE)
+   ${CMAKE_SOURCE_DIR}/../../../..  ABSOLUTE)
 set(COMMON_DIR ${REPO_ROOT_DIR}/common)
 set(THIRD_PARTY_DIR ${REPO_ROOT_DIR}/third_party)
 
