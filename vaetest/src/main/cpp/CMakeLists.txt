@@ -8,18 +8,16 @@ add_library(native_glue STATIC
     ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
 # build Vulkan app
 set(SRC_DIR ${CMAKE_SOURCE_DIR})
-get_filename_component(REPO_ROOT_DIR
-   ${CMAKE_SOURCE_DIR}/../../../..  ABSOLUTE)
-set(COMMON_DIR ${REPO_ROOT_DIR}/common)
-set(THIRD_PARTY_DIR ${REPO_ROOT_DIR}/third_party)
 
 include_directories(
-        ${REPO_ROOT_DIR}/vae/src/main/cpp
-   ${COMMON_DIR}/vulkan_wrapper
-   ${COMMON_DIR}/src
-   ${THIRD_PARTY_DIR}
-   ${ANDROID_NDK}/sources/android/native_app_glue
-   ${CMAKE_CURRENT_SOURCE_DIR}/shaderc/include)
+        ./
+        libs/headers/vae
+        libs/headers/common
+        libs/headers/common/src
+        libs/headers/common/vulkan_wrapper
+        libs/headers/third_party
+        libs/shaderc/include
+   ${ANDROID_NDK}/sources/android/native_app_glue)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
        -std=c++17 -Wall -Wno-unused-variable \
@@ -33,12 +31,12 @@ if (${ANDROID_ABI} STREQUAL "armeabi-v7a")
 endif()
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
-link_directories(${REPO_ROOT_DIR}/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
-link_directories(../jniLibs/${ANDROID_ABI}/)
+link_directories(libs/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
+link_directories(../jniLibs/vae/${ANDROID_ABI}/)
 
-message(WARN "LIBRARY " ${REPO_ROOT_DIR}/vae/src/main/cpp/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
+message(WARN "LIBRARY " libs/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
 
-message(WARN "LIBRARY " ../jniLibs/${ANDROID_ABI}/)
+message(WARN "LIBRARY " ../jniLibs/vae/${ANDROID_ABI}/)
 
 #Never let it up before you declare enough dependencies details
 add_library(vaetest SHARED

@@ -43,23 +43,58 @@ android {
         }
     }
 
+    //replace your vae.aar path here
+    def vaePath = "${project.rootDir}\\vae\\build\\outputs\\aar\\vae-debug.aar"
     task extractSo(type: Copy) {
-        println 'Extracting *.so file(s)....'
-
-        from zipTree("${project.rootDir}/vae/build/outputs/aar/vae-debug.aar")
-        into "${project.rootDir}/${project.name}/src/main/jniLibs/"
-        include "jni/**/*.so"
-
+        //assert file("$vaePath").exists()
+            from zipTree("$vaePath")
+            into("${project.rootDir}\\${project.name}\\src\\main\\jniLibs\\vae")
+            include "jni/**/*.so"
+            includeEmptyDirs = false
         eachFile {
             def segments = it.getRelativePath().getSegments() as List
             println segments
             it.setPath(segments.tail().join("/"))
             return it
         }
-        includeEmptyDirs = false
     }
+    task extractHeader(type: Copy) {
+            //assert file("$vaePath").exists()
+            from zipTree("$vaePath")
+            into("${project.rootDir}\\${project.name}\\src\\main\\cpp\\libs")
+            include "assets/headers/**"
+            includeEmptyDirs = false
+        eachFile {
+            def segments = it.getRelativePath().getSegments() as List
+            println segments
+            it.setPath(segments.tail().join("/"))
+            return it
+        }
 
+    }
+    task extractShaderc(type: Copy) {
+        //assert file("$vaePath").exists()
+        from zipTree("$vaePath")
+        into("${project.rootDir}\\${project.name}\\src\\main\\cpp\\libs")
+        include "assets/shaderc/**"
+        includeEmptyDirs = false
+        eachFile {
+            def segments = it.getRelativePath().getSegments() as List
+            println segments
+            it.setPath(segments.tail().join("/"))
+            return it
+        }
+
+    }
     preBuild.dependsOn extractSo
+    preBuild.dependsOn extractHeader
+    preBuild.dependsOn extractShaderc
+
+    //Delete vae.so if need
+    clean.doFirst {
+        println 'Delete vae folder'
+        delete "${project.rootDir}/${project.name}/src/main/jniLibs/vae/"
+    }
 }
 
 dependencies {

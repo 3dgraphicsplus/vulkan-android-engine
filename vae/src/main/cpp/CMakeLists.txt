@@ -21,6 +21,7 @@ message(WARN    "COMMON_DIR " ${COMMON_DIR})
 
 
 include_directories(
+        ./headers
         ${COMMON_DIR}/vulkan_wrapper
         ${COMMON_DIR}/src
         ${THIRD_PARTY_DIR}

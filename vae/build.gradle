@@ -29,5 +29,50 @@ android {
             proguardFiles.add(file('proguard-rules.pro'))
         }
     }
+
+    def commonHeader = "${project.rootDir}\\common"
+    def dependsHeader = "${project.rootDir}\\third_party"
+    def vaeHeader = "${project.rootDir}\\${project.name}\\src\\main\\cpp\\headers"
+    def shaderc = "${project.rootDir}\\${project.name}\\src\\main\\cpp\\shaderc"
+    task copyCommonHeader(type: Copy) {
+        //assert file("$vaePath").exists()
+        println "Copying headers file(s)....$commonHeader"
+        from "$commonHeader"
+        into "${project.rootDir}/${project.name}/src/main/assets/headers/common"
+        include "**"
+        includeEmptyDirs = false
+    }
+    task copyDependsHeader(type: Copy) {
+        //assert file("$vaePath").exists()
+        println "Copying headers file(s)....$dependsHeader"
+        from "$dependsHeader"
+        into "${project.rootDir}/${project.name}/src/main/assets/headers/third_party"
+        include "**"
+        includeEmptyDirs = false
+    }
+
+    task copyShaderc(type: Copy) {
+        //assert file("$vaePath").exists()
+        println "Copying shaders file(s)....$shaderc"
+        from "$shaderc"
+        into "${project.rootDir}/${project.name}/src/main/assets/shaderc"
+        include "**"
+        includeEmptyDirs = false
+    }
+
+    task copyVAEHeader(type: Copy) {
+        //assert file("$vaePath").exists()
+        println "Copying shaders file(s)....$vaeHeader"
+        from "$vaeHeader"
+        into "${project.rootDir}/${project.name}/src/main/assets/headers/vae"
+        include "**"
+        includeEmptyDirs = false
+    }
+
+    preBuild.dependsOn copyCommonHeader
+    preBuild.dependsOn copyDependsHeader
+    preBuild.dependsOn copyShaderc
+    preBuild.dependsOn copyVAEHeader
+
     buildToolsVersion '30.0.2'
 }
