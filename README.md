@@ -32,5 +32,5 @@ git clone --depth=1 https://github.com/3dgraphicsplus/vulkan-android-engine.git
 
 ### Donate ###
 While waiting for official sponsor button from github.
-
+It will take a huge time to get onboard current design of three.js, so please keep waiting and support us! :)
 [Paypal](https://paypal.me/3dgraphicsplus)
