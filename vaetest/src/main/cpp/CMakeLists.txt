@@ -32,11 +32,11 @@ endif()
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
 link_directories(libs/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
-link_directories(../jniLibs/vae/${ANDROID_ABI}/)
+link_directories(../jniLibs/${ANDROID_ABI}/)
 
 message(WARN "LIBRARY " libs/shaderc/libs/${ANDROID_STL}/${ANDROID_ABI})
 
-message(WARN "LIBRARY " ../jniLibs/vae/${ANDROID_ABI}/)
+message(WARN "LIBRARY " ../jniLibs/${ANDROID_ABI}/)
 
 #Never let it up before you declare enough dependencies details
 add_library(vaetest SHARED
