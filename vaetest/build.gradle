@@ -48,7 +48,7 @@ android {
     task extractSo(type: Copy) {
         //assert file("$vaePath").exists()
             from zipTree("$vaePath")
-            into("${project.rootDir}\\${project.name}\\src\\main\\jniLibs\\vae")
+            into("${project.rootDir}\\${project.name}\\src\\main\\jniLibs")
             include "jni/**/*.so"
             includeEmptyDirs = false
         eachFile {
@@ -93,7 +93,7 @@ android {
     //Delete vae.so if need
     clean.doFirst {
         println 'Delete vae folder'
-        delete "${project.rootDir}/${project.name}/src/main/jniLibs/vae/"
+        delete "${project.rootDir}/${project.name}/src/main/jniLibs/*"
     }
 }
 
