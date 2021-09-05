@@ -40,6 +40,8 @@ message(WARN "LIBRARY " ../jniLibs/${ANDROID_ABI}/)
 
 #Never let it up before you declare enough dependencies details
 add_library(vaetest SHARED
-        ${SRC_DIR}/AndroidMain.cpp)
+        ${SRC_DIR}/AndroidMain.cpp
+        ${SRC_DIR}/VulkanMain.cpp
+        )
 
 target_link_libraries(vaetest vae native_glue log android shaderc)
