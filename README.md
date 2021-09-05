@@ -19,11 +19,14 @@ Give a highest respect to Three.js!
 
 ### Usage ###
 
-### Cloning this repository ###
+1. Cloning this repository
 
 ```sh
 git clone --depth=1 https://github.com/3dgraphicsplus/vulkan-android-engine.git
 ```
+
+2. Build vae module
+3. Build and install vaetest application
 
 ### Change log ###
 
