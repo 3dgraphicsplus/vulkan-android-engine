@@ -43,9 +43,16 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/shaderc/libs/${ANDROID_STL}/${ANDRO
 message(WARN "library " ${CMAKE_LIBRARY_PATH})
 
 add_library(vae SHARED
-   ${SRC_DIR}/VulkanMain.cpp
-   ${SRC_DIR}/CreateShaderModule.cpp
-   ${COMMON_DIR}/vulkan_wrapper/vulkan_wrapper.cpp)
+   ${SRC_DIR}/FileUtils.cpp
+   ${COMMON_DIR}/vulkan_wrapper/vulkan_wrapper.cpp
+        ${SRC_DIR}/Renderer.cpp
+        ${SRC_DIR}/SwapChain.cpp
+        ${SRC_DIR}/CommandPool.cpp
+        ${SRC_DIR}/Device.cpp
+        ${SRC_DIR}/Texture.cpp
+        ${SRC_DIR}/GraphicsPipe.cpp
+        ${SRC_DIR}/Object.cpp
+        ${SRC_DIR}/Material.cpp)
 
 
 target_link_libraries(vae log android shaderc)

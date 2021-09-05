@@ -100,6 +100,7 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation project(path: ':vae')
     //implementation project(path: ':vae')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
