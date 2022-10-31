@@ -17,6 +17,7 @@
 
 #include "FileUtils.h"
 #include <android/log.h>
+#include "assert.h"
 namespace FileUtils {
 // Create VK shader module from given glsl shader file
 // filePath: glsl shader file (including path ) in APK's asset folder
