@@ -1,15 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
-    ndkVersion '21.4.7075529'
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 25
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.0"
+        targetSdkVersion 33
 
-        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        ndk.abiFilters 'arm64-v8a', 'x86', 'x86_64'
         externalNativeBuild {
             cmake.arguments '-DANDROID_TOOLCHAIN=clang',
                             '-DANDROID_STL=c++_static',
@@ -19,7 +16,7 @@ android {
     }
     externalNativeBuild {
         cmake {
-            version "3.18.1"
+            version "3.7.0+"
         }
         cmake.path 'src/main/cpp/CMakeLists.txt'
     }
@@ -74,5 +71,6 @@ android {
     preBuild.dependsOn copyShaderc
     preBuild.dependsOn copyVAEHeader
 
-    buildToolsVersion '30.0.2'
+    ndkVersion '23.1.7779620'
+    namespace 'com.threedgraphicsplus.vae'
 }
