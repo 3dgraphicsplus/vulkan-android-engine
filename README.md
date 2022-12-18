@@ -2,7 +2,7 @@ VAE - Vulkan Android Engine
 ========
 #### Android 3D library ####
 
-The aim of the project is to create an easy to use, lightweight, general purpose 3D library.
+The aim of the project is to create an easy to use, lightweight, general purpose 3D library and gpu computing capability.
 
 We love design philosophy of Three.js, so this will be a pair with Three.js for Three.js fan.
 
