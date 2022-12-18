@@ -10,13 +10,14 @@ android {
         externalNativeBuild {
             cmake.arguments '-DANDROID_TOOLCHAIN=clang',
                             '-DANDROID_STL=c++_static',
-                            '-DANDROID_PLATFORM=android-26',
-                            '--target clean'
+                            '-DANDROID_PLATFORM=android-26'
+            //,
+                            //'--target clean'
         }
     }
     externalNativeBuild {
         cmake {
-            version "3.7.0+"
+            version "3.18.1+"
         }
         cmake.path 'src/main/cpp/CMakeLists.txt'
     }
