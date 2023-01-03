@@ -221,6 +221,9 @@ VkResult GraphicsPipe::CreateGraphicsPipeline(VkShaderModule vertexShader, VkSha
 
 // initialize descriptor set
 VkResult GraphicsPipe::CreateDescriptorSet(std::vector<Texture*> textures) {
+    if(textures.empty()){
+        return VK_SUCCESS;
+    }
     const VkDescriptorPoolSize type_count = {
             .type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
             .descriptorCount = (uint32_t)textures.size(),
