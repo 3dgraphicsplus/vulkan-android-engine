@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 message(WARN  "Start compiling vae")
 
+
+add_definitions(-DUSE_NATIVE_ACTIVITY=1)
+
 # build Vulkan Android Engine
 set(SRC_DIR ${CMAKE_SOURCE_DIR})
 get_filename_component(REPO_ROOT_DIR

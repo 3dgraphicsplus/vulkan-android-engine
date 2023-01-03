@@ -10,8 +10,8 @@ Texture::Texture(Device* device) {
     this->device = device;
 }
 
-VkResult Texture::CreateTexture(unsigned char* imageData, uint32_t  imgWidth, uint32_t  imgHeight,
-                             VkImageUsageFlags usage, VkFlags required_props) {
+VkResult Texture::setData(unsigned char* imageData, uint32_t  imgWidth, uint32_t  imgHeight,
+                          VkImageUsageFlags usage, VkFlags required_props) {
     if (!(usage | required_props)) {
         __android_log_print(ANDROID_LOG_ERROR, TAG,
                             "No usage and required_pros");

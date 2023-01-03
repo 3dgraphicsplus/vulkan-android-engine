@@ -20,37 +20,44 @@
 
 #include <vector>
 #include <vulkan_wrapper.h>
+#if USE_NATIVE_ACTIVITY
 #include <android_native_app_glue.h>
+#endif
 #include <shaderc/shaderc.h>
 
-namespace FileUtils {
-/*
- * buildShaderFromFile()
- *   Create a Vulkan shader module from the given glsl shader file
- *   Input shader is compiled with shaderc (https://github.com/google/shaderc)
- *   prebuilt binary on github (https://github.com/ggfan/shaderc/release)
- *
- *   The pre-built shaderc lib is packed as CDep format of:
- *      https://github.com/google/cdep
- *   Refer to full documentation from the above homepage
- *
- *   feedback for CDep is very welcome to the https://github.com/google/cdep
- * Input:
- *     appInfo:   android_app, from which get AAssertManager*
- *     filePaht:  shader file full name with path inside APK/assets
- *     type:      borrowed VK's shader type to indicate which glsl shader it is
- *     vkDevice:  Vulkan logical device
- * Output:
- *     shaderOut:  built shader module return to caller
- * Return:
- *     VK_SUCCESS: shader module is at shaderOut
- *     Others:  error happened, no shader module created at all
- */
+#include<android/native_window.h>
 
-    std::vector<char> getBufferFromFile(
+#include <android/asset_manager.h>
+
+namespace FileUtils {
+
+    /**
+     *
+     * @param appInfo
+     * @param filePath
+     * @return  Get file buffer using native android app
+     */
+#if USE_NATIVE_ACTIVITY
+    std::vector<char> getFileFromApp(
             android_app *appInfo,
             const char *filePath);
+#endif
 
+    /**
+     *
+     * @param appInfo
+     * @param filePath
+     * @return Get file buffer using asset manager, for java+jni android app
+     */
+    std::vector<char> getFileFromAsset(
+            AAssetManager *appInfo,
+            const char *filePath);
+
+    /**
+     *
+     * @param bits
+     * @return Get shader name
+     */
     shaderc_shader_kind getShadercShaderType(VkShaderStageFlagBits bits);
 }
 #endif // TUTORIAL06_TEXTURE_CREATESHADERMODULE_H

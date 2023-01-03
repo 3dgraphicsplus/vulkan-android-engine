@@ -19,8 +19,8 @@ public:
     //FIXME device should be outside?
     Texture(Device* device = NULL);
 
-    VkResult CreateTexture(unsigned char* imageData, uint32_t  imgWidth, uint32_t  imgHeight,
-                           VkImageUsageFlags usage, VkFlags required_props);
+    VkResult setData(unsigned char* imageData, uint32_t  imgWidth, uint32_t  imgHeight,
+                     VkImageUsageFlags usage, VkFlags required_props);
 
 private:
 

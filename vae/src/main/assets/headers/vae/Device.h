@@ -21,8 +21,6 @@ private:
 
 public:
 //VulkanDeviceInfo
-
-    bool initialized_;
     VkInstance instance_;
     VkPhysicalDevice gpuDevice_;
     VkPhysicalDeviceMemoryProperties gpuMemoryProperties_;

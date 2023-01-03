@@ -1,0 +1,110 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.threedgraphicsplus.vaetest_native"
+        minSdkVersion 28
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+        ndk.abiFilters 'arm64-v8a', 'x86', 'x86_64'
+        externalNativeBuild {
+            cmake.arguments '-DANDROID_TOOLCHAIN=clang',
+                    '-DANDROID_STL=c++_static',
+                    '-DANDROID_PLATFORM=android-26'
+        }
+        //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+    }
+    externalNativeBuild {
+        cmake {
+            version "3.18.1+"
+        }
+        cmake.path 'src/main/cpp/CMakeLists.txt'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["src\\main\\jniLibs"]
+        }
+    }
+
+    //replace your vae.aar path here
+    def vaePath = "${project.rootDir}\\vae\\build\\outputs\\aar\\vae-debug.aar"
+    task extractSo(type: Copy) {
+        //assert file("$vaePath").exists()
+            from zipTree("$vaePath")
+            into("${project.rootDir}\\${project.name}\\src\\main\\jniLibs")
+            include "jni/**/*.so"
+            includeEmptyDirs = false
+        eachFile {
+            def segments = it.getRelativePath().getSegments() as List
+            println segments
+            it.setPath(segments.tail().join("/"))
+            return it
+        }
+    }
+    task extractHeader(type: Copy) {
+            //assert file("$vaePath").exists()
+            from zipTree("$vaePath")
+            into("${project.rootDir}\\${project.name}\\src\\main\\cpp\\libs")
+            include "assets/headers/**"
+            includeEmptyDirs = false
+        eachFile {
+            def segments = it.getRelativePath().getSegments() as List
+            println segments
+            it.setPath(segments.tail().join("/"))
+            return it
+        }
+
+    }
+    task extractShaderc(type: Copy) {
+        //assert file("$vaePath").exists()
+        from zipTree("$vaePath")
+        into("${project.rootDir}\\${project.name}\\src\\main\\cpp\\libs")
+        include "assets/shaderc/**"
+        includeEmptyDirs = false
+        eachFile {
+            def segments = it.getRelativePath().getSegments() as List
+            println segments
+            it.setPath(segments.tail().join("/"))
+            return it
+        }
+
+    }
+    namespace 'com.threedgraphicsplus.vaetest'
+    preBuild.dependsOn extractSo
+    preBuild.dependsOn extractHeader
+    preBuild.dependsOn extractShaderc
+
+    //Delete vae.so if need
+    clean.doFirst {
+        println 'Delete vae folder'
+        delete "${project.rootDir}/${project.name}/src/main/jniLibs/*"
+    }
+    ndkVersion '21.4.7075529'
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation project(path: ':vae')
+    //implementation project(path: ':vae')
+    testImplementation 'junit:junit:4.+'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+}

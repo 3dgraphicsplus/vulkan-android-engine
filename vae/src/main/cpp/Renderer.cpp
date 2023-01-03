@@ -29,24 +29,40 @@ void Renderer::preRender(Object& object, Material& material){
     object.vkBuffer = device->CreateBuffers(object.vertices.data(), object.vertices.size() * sizeof(float));
 
     LOGI("compileShader vertString");
-    compileShader(material.vertString,
+    VkResult error = compileShader(material.vertString,
                             VK_SHADER_STAGE_VERTEX_BIT,
                             &material.vertexShader);
+    if(error != VK_SUCCESS){
+        LOGE("compileShader vertString failed");
+        return;
+    }
 
     LOGI("compileShader fragString");
-    compileShader(material.fragString,
+    error = compileShader(material.fragString,
                             VK_SHADER_STAGE_FRAGMENT_BIT,
                             &material.fragmentShader);
+    if(error != VK_SUCCESS){
+        LOGE("compileShader fragString failed");
+        return;
+    }
 
-    LOGI("CreateGraphicsPipeline");
-    gfxPipeline->CreateGraphicsPipeline(material.vertexShader, material.fragmentShader,
+    LOGI("CreateGraphicsPipeline %d %d", swapchain->displaySize_.width, swapchain->displaySize_.height);
+    error = gfxPipeline->CreateGraphicsPipeline(material.vertexShader, material.fragmentShader,
                                        material.map ? 1:0,swapchain->displaySize_,renderPass_);
+    if(error != VK_SUCCESS){
+        LOGE("CreateGraphicsPipeline failed");
+        return;
+    }
 
     std::vector<Texture*> mapSet;
     mapSet.push_back(material.map);
 
     LOGI("CreateDescriptorSet");
-    gfxPipeline->CreateDescriptorSet(mapSet);
+    error = gfxPipeline->CreateDescriptorSet(mapSet);
+    if(error != VK_SUCCESS){
+        LOGE("CreateDescriptorSet failed");
+        return;
+    }
 }
 
 
@@ -167,6 +183,9 @@ VkResult Renderer::compileShader(std::vector<char> glslShader, VkShaderStageFlag
             "shaderc_error", "main", nullptr);
     if (shaderc_result_get_compilation_status(spvShader) !=
         shaderc_compilation_status_success) {
+        std::string shaderTxt;
+        shaderTxt.assign(glslShader.begin(),glslShader.end());
+        LOGE("Cannot compile shader %s",shaderTxt.c_str());
         return static_cast<VkResult>(-1);
     }
 
@@ -181,6 +200,7 @@ VkResult Renderer::compileShader(std::vector<char> glslShader, VkShaderStageFlag
     VkResult result = vkCreateShaderModule(device->device_, &shaderModuleCreateInfo,
                                            nullptr, shaderOut);
 
+    LOGI("Release shader compiler");
     shaderc_result_release(spvShader);
     shaderc_compiler_release(compiler);
 
@@ -279,12 +299,11 @@ void Renderer::render(Object& object, Material& material) {
     CALL_VK(vkCreateSemaphore(device->device_, &semaphoreCreateInfo, nullptr,
                               &semaphore_));
 
-    device->initialized_ = true;
-
 }
 
 bool Renderer::draw() {
     uint32_t nextIndex;
+    LOGI("vkAcquireNextImageKHR");
     // Get the framebuffer index we should draw in
     CALL_VK(vkAcquireNextImageKHR(device->device_, swapchain->swapchain_,
                                   UINT64_MAX, semaphore_, VK_NULL_HANDLE,
@@ -326,10 +345,6 @@ bool Renderer::draw() {
     LOGI("vkQueuePresentKHR");
     vkQueuePresentKHR(device->queue_, &presentInfo);
     return true;
-}
-
-bool Renderer::isReady(){
-    return device->initialized_;
 }
 
 
