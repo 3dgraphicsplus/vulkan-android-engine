@@ -14,13 +14,17 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 #include "VulkanMain.hpp"
+#include "Log.hpp"
 
+//To save power, we only need to update renderer in need
+bool need2Update = false;
 // Process the next main command.
 void handle_cmd(android_app* app, int32_t cmd) {
   switch (cmd) {
     case APP_CMD_INIT_WINDOW:
       // The window is being shown, get it ready.
       InitVulkan(app);
+      need2Update = true;
       break;
     case APP_CMD_TERM_WINDOW:
       // The window is being hidden or closed, clean it up.
@@ -49,6 +53,10 @@ void android_main(struct android_app* app) {
     }
 
     // render if vulkan is ready
-    VulkanDrawFrame();
+    //LOGI("DrawFrame");
+    if(need2Update) {
+      VulkanUpdate();
+      need2Update = false;
+    }
   } while (app->destroyRequested == 0);
 }

@@ -134,7 +134,7 @@ void DeleteVulkan() {
   delete  renderer;
 }
 // Draw one frame
-bool VulkanDrawFrame(void) {
-  return renderer && renderer->draw();
+bool VulkanUpdate(void) {
+  return renderer && renderer->swapbuffer();
 }
 
