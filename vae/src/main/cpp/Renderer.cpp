@@ -301,7 +301,7 @@ void Renderer::render(Object& object, Material& material) {
 
 }
 
-bool Renderer::draw() {
+bool Renderer::swapbuffer() {
     uint32_t nextIndex;
     LOGI("vkAcquireNextImageKHR");
     // Get the framebuffer index we should draw in

@@ -52,7 +52,7 @@ public:
 
     void render(Object& object, Material& material);
 
-    bool draw();
+    bool swapbuffer();
 
 private:
 
