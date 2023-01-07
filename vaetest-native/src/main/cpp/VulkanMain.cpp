@@ -120,13 +120,6 @@ bool InitVulkan(android_app* app) {
   // Create graphics pipeline - Temp
     material.map = textures[0];
 
-  LOGI("prerender");
-  //TODO scene graph
-  renderer->preRender(triangle,material);
-
-  LOGI("render");
-  renderer->render(triangle,material);
-
   return true;
 }
 
@@ -135,6 +128,17 @@ void DeleteVulkan() {
 }
 // Draw one frame
 bool VulkanUpdate(void) {
-  return renderer && renderer->swapbuffer();
+
+  LOGI("prerender");
+  //TODO scene graph
+  renderer->preRender(triangle,material);
+
+  LOGI("render");
+  renderer->render(triangle,material);
+
+  LOGI("swapbuffer");
+  renderer->swapbuffer();
+
+  return true;
 }
 
