@@ -40,13 +40,13 @@ shaderc_shader_kind getShadercShaderType(VkShaderStageFlagBits type) {
 class Renderer {
 public:
     Renderer(ANativeWindow* platformWindow,
-             VkApplicationInfo* appInfo);
+             VkApplicationInfo* appInfo = nullptr);
     ~Renderer();
     Device* getDevice(){return device;}
 
     void preRender(Object& object);
 
-    VkResult compileShader(std::vector<char> glslShader, VkShaderStageFlagBits type,VkShaderModule *shaderOut);
+    VkResult compileShader(std::string glslShader, VkShaderStageFlagBits type,VkShaderModule *shaderOut);
 
     void preRender(Object &object, Material &material);
 

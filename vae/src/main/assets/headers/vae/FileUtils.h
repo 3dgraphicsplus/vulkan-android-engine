@@ -18,7 +18,7 @@
 #ifndef TUTORIAL06_TEXTURE_CREATESHADERMODULE_H
 #define TUTORIAL06_TEXTURE_CREATESHADERMODULE_H
 
-#include <vector>
+#include <string>
 #include <vulkan_wrapper.h>
 #if USE_NATIVE_ACTIVITY
 #include <android_native_app_glue.h>
@@ -29,6 +29,8 @@
 
 #include <android/asset_manager.h>
 
+#define n2s(val) std::to_string(val)
+
 namespace FileUtils {
 
     /**
@@ -38,7 +40,7 @@ namespace FileUtils {
      * @return  Get file buffer using native android app
      */
 #if USE_NATIVE_ACTIVITY
-    std::vector<char> getFileFromApp(
+    std::string getFileFromApp(
             android_app *appInfo,
             const char *filePath);
 #endif
@@ -49,7 +51,7 @@ namespace FileUtils {
      * @param filePath
      * @return Get file buffer using asset manager, for java+jni android app
      */
-    std::vector<char> getFileFromAsset(
+    std::string getFileFromAsset(
             AAssetManager *appInfo,
             const char *filePath);
 
@@ -59,5 +61,13 @@ namespace FileUtils {
      * @return Get shader name
      */
     shaderc_shader_kind getShadercShaderType(VkShaderStageFlagBits bits);
+
+    /**
+     *
+     * @param source
+     * @param placeholder
+     * @param value
+     */
+    void setPlaceholder(std::string& source, const std::string placeholder, const std::string value);
 }
 #endif // TUTORIAL06_TEXTURE_CREATESHADERMODULE_H

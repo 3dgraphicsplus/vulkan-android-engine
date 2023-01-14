@@ -12,6 +12,19 @@ Device::Device(ANativeWindow* platformWindow,
 // Create vulkan device
 void Device::CreateVulkanDevice(ANativeWindow* platformWindow,
                                   VkApplicationInfo* appInfo) {
+
+    if(appInfo == nullptr){
+        appInfo = new VkApplicationInfo{
+                .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+                .pNext = nullptr,
+                .pApplicationName = "VAETest",
+                .applicationVersion = VK_MAKE_VERSION(1, 0, 0),
+                .pEngineName = "VAE",
+                .engineVersion = VK_MAKE_VERSION(1, 0, 0),
+                .apiVersion = VK_MAKE_VERSION(1, 0, 0),
+        };
+    }
+
     std::vector<const char*> instance_extensions;
     std::vector<const char*> device_extensions;
 

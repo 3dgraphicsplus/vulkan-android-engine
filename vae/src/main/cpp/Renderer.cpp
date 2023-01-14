@@ -174,18 +174,18 @@ void Renderer::CreateRenderPass(VkDevice device) {
                                &renderPass_));
     }
 
-VkResult Renderer::compileShader(std::vector<char> glslShader, VkShaderStageFlagBits type,VkShaderModule *shaderOut) {
+VkResult Renderer::compileShader(std::string glslShader, VkShaderStageFlagBits type,VkShaderModule *shaderOut) {
 
     // compile into spir-V shader
     shaderc_compiler_t compiler = shaderc_compiler_initialize();
-    shaderc_compilation_result_t spvShader = shaderc_compile_into_spv(
+    shaderc_compilation_result_t result = shaderc_compile_into_spv(
             compiler, glslShader.data(), glslShader.size(), getShadercShaderType(type),
             "shaderc_error", "main", nullptr);
-    if (shaderc_result_get_compilation_status(spvShader) !=
+    if (shaderc_result_get_compilation_status(result) !=
         shaderc_compilation_status_success) {
         std::string shaderTxt;
         shaderTxt.assign(glslShader.begin(),glslShader.end());
-        LOGE("Cannot compile shader %s",shaderTxt.c_str());
+        LOGE("Cannot compile shader %s",shaderc_result_get_error_message(result));
         return static_cast<VkResult>(-1);
     }
 
@@ -194,17 +194,17 @@ VkResult Renderer::compileShader(std::vector<char> glslShader, VkShaderStageFlag
             .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .codeSize = shaderc_result_get_length(spvShader),
-            .pCode = (const uint32_t *) shaderc_result_get_bytes(spvShader),
+            .codeSize = shaderc_result_get_length(result),
+            .pCode = (const uint32_t *) shaderc_result_get_bytes(result),
     };
-    VkResult result = vkCreateShaderModule(device->device_, &shaderModuleCreateInfo,
+    VkResult ok = vkCreateShaderModule(device->device_, &shaderModuleCreateInfo,
                                            nullptr, shaderOut);
 
     LOGI("Release shader compiler");
-    shaderc_result_release(spvShader);
+    shaderc_result_release(result);
     shaderc_compiler_release(compiler);
 
-    return result;
+    return ok;
 }
 
 

@@ -22,22 +22,26 @@ namespace FileUtils {
 // Create VK shader module from given glsl shader file
 // filePath: glsl shader file (including path ) in APK's asset folder
 #if USE_NATIVE_ACTIVITY
-    std::vector<char> getFileFromApp(android_app *appInfo, const char *filePath) {
+    std::string getFileFromApp(android_app *appInfo, const char *filePath) {
       // read file from Assets
       return getFileFromAsset(appInfo->activity->assetManager, filePath);
     }
 #endif
-    std::vector<char> getFileFromAsset(AAssetManager *assetManager, const char *filePath) {
+    std::string getFileFromAsset(AAssetManager *assetManager, const char *filePath) {
         // read file from Assets
         AAsset *file = AAssetManager_open(assetManager, filePath,
                                           AASSET_MODE_BUFFER);
         size_t len = AAsset_getLength(file);
         assert(len > 0);
-        std::vector<char> buffer;
+        std::string buffer;
         buffer.resize(len);
 
         AAsset_read(file, static_cast<void *>(buffer.data()), len);
         AAsset_close(file);
         return buffer;
+    }
+
+    void setPlaceholder(std::string& source, const std::string placeholder, const std::string value){
+        source.replace(source.find(placeholder),placeholder.length(),value);
     }
 }

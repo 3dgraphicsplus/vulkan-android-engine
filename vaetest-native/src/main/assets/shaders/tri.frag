@@ -20,6 +20,17 @@
 layout (binding = 0) uniform sampler2D tex;
 layout (location = 0) in vec2 texcoord;
 layout (location = 0) out vec4 uFragColor;
+
+//TODO animation
+vec3 iMouse = vec3(0.0,0.0,0.0);
+vec2 iResolution = vec2(__w__,__h__);
+float iTime = 0.0;
+int iFrame = 0;
+
+__mainImage__
+
 void main() {
-   uFragColor = texture(tex, texcoord);
+   //uFragColor = texture(tex, texcoord);
+   vec2 fragCoord = iResolution.xy - gl_FragCoord.xy;
+   mainImage(uFragColor,fragCoord);
 }

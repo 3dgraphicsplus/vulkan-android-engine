@@ -51,7 +51,7 @@ void CreateTexture(void) {
 
     // Read the file:
     //FIXME: bring to outside
-    std::vector<char> fileContent = FileUtils::getFileFromApp(androidAppCtx, texFiles[i]);
+    std::string fileContent = FileUtils::getFileFromApp(androidAppCtx, texFiles[i]);
 
     uint32_t imgWidth, imgHeight, n;
     unsigned char* imageData = stbi_load_from_memory(
@@ -96,29 +96,27 @@ bool InitVulkan(android_app* app) {
     return false;
   }
 
-  VkApplicationInfo appInfo = {
-      .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-      .pNext = nullptr,
-      .pApplicationName = "VAETest",
-      .applicationVersion = VK_MAKE_VERSION(1, 0, 0),
-      .pEngineName = "VAE",
-      .engineVersion = VK_MAKE_VERSION(1, 0, 0),
-      .apiVersion = VK_MAKE_VERSION(1, 0, 0),
-  };
-
   // create a device
 
   LOGI("Create Render");
-  renderer = new Renderer(app->window, &appInfo);
+  renderer = new Renderer(app->window);
+  int width = ANativeWindow_getWidth(app->window);
+  int height = ANativeWindow_getHeight(app->window);
 
   LOGI("Create Texture");
   CreateTexture();
   material.vertString = FileUtils::getFileFromApp(androidAppCtx, "shaders/tri.vert");
-  material.fragString = FileUtils::getFileFromApp(androidAppCtx, "shaders/tri.frag");
+
+  auto fragTemplate = FileUtils::getFileFromApp(androidAppCtx, "shaders/tri.frag");
+  auto effect = FileUtils::getFileFromApp(androidAppCtx, "shaders/shapes.frag");
+
+  FileUtils::setPlaceholder(fragTemplate,"__mainImage__",effect);
+  FileUtils::setPlaceholder(fragTemplate,"__w__", n2s(width));
+  FileUtils::setPlaceholder(fragTemplate,"__h__",n2s(height));
+  material.fragString = fragTemplate;
 
 
-  // Create graphics pipeline - Temp
-    material.map = textures[0];
+  material.map = textures[0];
 
   return true;
 }

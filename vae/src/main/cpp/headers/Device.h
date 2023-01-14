@@ -13,11 +13,11 @@
 
 class Device {
 public:
-    Device(ANativeWindow *platformWindow, VkApplicationInfo *appInfo);
+    Device(ANativeWindow *platformWindow, VkApplicationInfo *appInfo = nullptr);
     ~Device();
 private:
     void CreateVulkanDevice(ANativeWindow* platformWindow,
-                            VkApplicationInfo* appInfo);
+                            VkApplicationInfo* appInfo = nullptr);
 
 public:
 //VulkanDeviceInfo

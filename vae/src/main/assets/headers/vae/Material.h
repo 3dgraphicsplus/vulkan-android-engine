@@ -5,6 +5,8 @@
 #ifndef VULKAN_ANDROID_ENGINE_MATERIAL_H
 #define VULKAN_ANDROID_ENGINE_MATERIAL_H
 
+#include <string>
+
 #include "vulkan_wrapper.h"
 #include "Texture.h"
 
@@ -13,8 +15,8 @@ public:
     Material();
     VkShaderModule vertexShader, fragmentShader;
     Texture* map = NULL;
-    std::vector<char> vertString;
-    std::vector<char> fragString;
+    std::string vertString;
+    std::string fragString;
 };
 
 
