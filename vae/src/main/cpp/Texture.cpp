@@ -6,8 +6,9 @@
 #include "Texture.h"
 #include "CommandPool.h"
 
-Texture::Texture(Device* device) {
+Texture::Texture(Device* device){
     this->device = device;
+    layoutId = device->nextLayout();
 }
 
 VkResult Texture::setData(unsigned char* imageData, uint32_t  imgWidth, uint32_t  imgHeight,
@@ -31,9 +32,6 @@ VkResult Texture::setData(unsigned char* imageData, uint32_t  imgWidth, uint32_t
         __android_log_print(ANDROID_LOG_INFO, TAG,
                             "You're good, no Blit is required");
     }
-
-
-
     tex_width = imgWidth;
     tex_height = imgHeight;
 
@@ -73,7 +71,7 @@ VkResult Texture::setData(unsigned char* imageData, uint32_t  imgWidth, uint32_t
                                               VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
                                               &mem_alloc.memoryTypeIndex));
     CALL_VK(vkAllocateMemory(device->device_, &mem_alloc, nullptr, &mem));
-    CALL_VK(vkBindImageMemory(device->device_, image_, mem, 0));
+    CALL_VK(vkBindImageMemory(device->device_, image_, mem, layoutId));
 
     if (required_props & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) {
         const VkImageSubresource subres = {

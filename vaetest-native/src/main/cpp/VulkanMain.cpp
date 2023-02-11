@@ -108,7 +108,7 @@ bool InitVulkan(android_app* app) {
   material.vertString = FileUtils::getFileFromApp(androidAppCtx, "shaders/tri.vert");
 
   auto fragTemplate = FileUtils::getFileFromApp(androidAppCtx, "shaders/tri.frag");
-  auto effect = FileUtils::getFileFromApp(androidAppCtx, "shaders/shapes.frag");
+  auto effect = FileUtils::getFileFromApp(androidAppCtx, "shaders/valley-flight.frag");
 
   FileUtils::setPlaceholder(fragTemplate,"__mainImage__",effect);
   FileUtils::setPlaceholder(fragTemplate,"__w__", n2s(width));

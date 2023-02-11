@@ -26,6 +26,8 @@ private:
 
     Device* device;
 
+    int layoutId;
+
     VkResult AllocateMemoryTypeFromProperties(uint32_t typeBits,
                                                        VkFlags requirements_mask,
                                                        uint32_t* typeIndex);

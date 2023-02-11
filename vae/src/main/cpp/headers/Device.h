@@ -10,7 +10,7 @@
 
 #include "Log.hpp"
 #include "vulkan_wrapper.h"
-
+#define LAYOUT_ID_INVALID -1
 class Device {
 public:
     Device(ANativeWindow *platformWindow, VkApplicationInfo *appInfo = nullptr);
@@ -18,7 +18,7 @@ public:
 private:
     void CreateVulkanDevice(ANativeWindow* platformWindow,
                             VkApplicationInfo* appInfo = nullptr);
-
+    int layoutId;
 public:
 //VulkanDeviceInfo
     VkInstance instance_;
@@ -30,11 +30,12 @@ public:
     VkSurfaceKHR surface_;
     VkQueue queue_;
 
-
     VkBuffer CreateBuffers(float* vertexData, uint32_t InBytes);
     void DeleteBuffers(VkBuffer& buffer);
     bool MapMemoryTypeToIndex(uint32_t typeBits, VkFlags requirements_mask,
                               uint32_t* typeIndex);
+
+    int nextLayout();
 
 };
 

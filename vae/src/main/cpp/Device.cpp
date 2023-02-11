@@ -192,6 +192,10 @@ bool Device::MapMemoryTypeToIndex(uint32_t typeBits, VkFlags requirements_mask,
     return false;
 }
 
+int Device::nextLayout(){
+    return this->layoutId++;
+}
+
 Device::~Device() {
     vkDestroyDevice(device_, nullptr);
     vkDestroyInstance(instance_, nullptr);
