@@ -1,3 +1,4 @@
 include ':vae'
 //include ':vaetest-native'
-include ':vaetest-java'
+include ':vae-java-sample'
+include ':vae-java'
